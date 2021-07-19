@@ -129,6 +129,13 @@ public class Starling {
             guard let player = firstAvailablePlayer() else { return }
             
             objc_sync_enter(players)
+            if !engine.isRunning {
+                do {
+                    try engine.start()
+                } catch let error {
+                    handleNonFatalError(error)
+                }
+            }
             player.play(audio, identifier: sound)
             objc_sync_exit(players)
         }
